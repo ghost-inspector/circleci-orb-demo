@@ -1,0 +1,33 @@
+version: 2.1
+orbs:
+  ghostinspector: ghostinspector/test-runner@1.0.0
+executors:
+  docker-executor:
+    docker: 
+      - image: docker:17.05.0-ce-git
+jobs:
+  execute-docker-suite:
+    executor: docker-executor
+    steps:
+      - setup_remote_docker
+      - run:
+          name: Set up temporary docker network
+          command: docker network create my-docker-network
+      - run:
+          name: >-
+            Start your application container with network and port
+          command: |
+            docker run -d \
+              -e PORT=8080 \
+              --network my-docker-network \
+              --name my-app \
+              my-docker-image
+      - ghostinspector/test-docker-app:
+          suite-id: $GI_SUITE
+          network: my-docker-network
+          vpn-token: $NGROK_TOKEN
+          vpn-target: 'my-app:8080'
+workflows:
+  test:
+    jobs:
+      - execute-docker-suite
