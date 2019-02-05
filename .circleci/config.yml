@@ -2,10 +2,13 @@ version: 2.1
 orbs:
   ghostinspector: ghostinspector/test-runner@1.0.0
 jobs:
-  execute-suite-command:
-    executor: default
+  execute-demo-test:
+    executor: ghostinspector/default
     steps:
-      - ghostinspector/execute-suite:
-          start-url: https://ghostinspector.com/
-          id: 5bdb1f808faf2b12926dcd62
+      - ghostinspector/execute-test:
+          id: 5c59b4b3d2263522933cad59
           wait: true
+workflows:
+  test:
+    jobs:
+      - execute-demo-test
