@@ -6,7 +6,7 @@ jobs:
     executor: ghostinspector/default
     steps:
       - ghostinspector/execute-test:
-          id: 5c59b4b3d2263522933cad59
+          id: 5c5b341f42c2604ddde12c98
           wait: true
 workflows:
   test:
